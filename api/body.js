@@ -1,0 +1,1 @@
+export async function readJson(req,max=100000){let s="";for await(const chunk of req){s+=chunk;if(s.length>max)throw new Error("payload_too_large")}if(!s)return{};try{return JSON.parse(s)}catch{throw new Error("invalid_json")}}
