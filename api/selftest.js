@@ -1,0 +1,1 @@
+import assert from"node:assert/strict";import{authUrl}from"./tiktok.js";const u=authUrl({clientKey:"abc",redirectUri:"https://example.com/callback",scopes:"user.info.basic",state:"xyz"});assert.match(u,/client_key=abc/);assert.match(u,/state=xyz/);assert.match(u,/redirect_uri=https%3A%2F%2Fexample.com%2Fcallback/);console.log("selftest ok");
