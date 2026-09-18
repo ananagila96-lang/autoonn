@@ -1,0 +1,1 @@
+const KEY="autoonn:v1";export const seed={products:[],queue:[],metrics:[]};export function load(){try{return{...seed,...JSON.parse(localStorage.getItem(KEY)||"{}")}}catch{return seed}}export function save(data){localStorage.setItem(KEY,JSON.stringify(data))}export function uid(){return crypto?.randomUUID?.()||Date.now().toString(36)}

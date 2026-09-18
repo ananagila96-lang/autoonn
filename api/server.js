@@ -1,0 +1,12 @@
+import http from"node:http";import{URL}from"node:url";import{authUrl,exchangeCode,makeState,creatorInfo}from"./tiktok.js";import{setToken,getToken,safeStatus}from"./token-store.js";
+const port=process.env.PORT||8787,origin=process.env.APP_ORIGIN||"http://localhost:5173";let oauthState=null;
+const headers={"content-type":"application/json","access-control-allow-origin":origin,"access-control-allow-methods":"GET,POST,OPTIONS","access-control-allow-headers":"content-type"};
+const json=(res,code,data)=>{res.writeHead(code,headers);res.end(JSON.stringify(data))};
+http.createServer(async(req,res)=>{try{const u=new URL(req.url,"http://localhost");if(req.method==="OPTIONS"){res.writeHead(204,headers);return res.end()}
+if(u.pathname==="/api/health")return json(res,200,{ok:true,service:"autoonn-api"});
+if(u.pathname==="/api/tiktok/status")return json(res,200,safeStatus());
+if(u.pathname==="/api/tiktok/auth/start"){if(!process.env.TIKTOK_CLIENT_KEY||!process.env.TIKTOK_REDIRECT_URI)return json(res,503,{error:"Configure TIKTOK_CLIENT_KEY e TIKTOK_REDIRECT_URI no servidor."});oauthState=makeState();return json(res,200,{authorize_url:authUrl({clientKey:process.env.TIKTOK_CLIENT_KEY,redirectUri:process.env.TIKTOK_REDIRECT_URI,scopes:process.env.TIKTOK_SCOPES||"user.info.basic",state:oauthState})})}
+if(u.pathname==="/api/tiktok/auth/callback"){const code=u.searchParams.get("code"),state=u.searchParams.get("state");if(!code||!state||state!==oauthState)return json(res,400,{error:"OAuth state/code inválido"});if(!process.env.TIKTOK_CLIENT_SECRET)return json(res,503,{error:"Client Secret não configurado no servidor"});const token=await exchangeCode({clientKey:process.env.TIKTOK_CLIENT_KEY,clientSecret:process.env.TIKTOK_CLIENT_SECRET,code,redirectUri:process.env.TIKTOK_REDIRECT_URI});setToken(token);oauthState=null;res.writeHead(302,{location:origin+"/?tiktok=connected"});return res.end()}
+if(u.pathname==="/api/tiktok/creator"){const t=getToken();if(!t?.access_token)return json(res,401,{error:"TikTok não conectado"});return json(res,200,await creatorInfo(t.access_token))}
+if(u.pathname==="/api/tiktok/publish")return json(res,503,{error:"Upload real permanece bloqueado até validar permissões Content Posting e creator_info."});
+return json(res,404,{error:"not_found"})}catch(e){return json(res,500,{error:e.message||"internal_error"})}}).listen(port,()=>console.log("Autoonn API :"+port));
