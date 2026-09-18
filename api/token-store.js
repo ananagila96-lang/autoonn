@@ -1,0 +1,1 @@
+let token=null;export function setToken(v){token=v}export function getToken(){return token}export function clearToken(){token=null}export function safeStatus(){return token?{connected:true,expires_in:token.expires_in,scope:token.scope}:{connected:false}}
