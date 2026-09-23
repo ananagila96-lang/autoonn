@@ -12,7 +12,9 @@ Fluxo: **produto → score → roteiro → fila → publicação oficial → mé
 - Estrutura de métricas
 - Tela de integração TikTok
 - Segredos excluídos do Git
-- Preparado para backend/API e OAuth
+- OAuth TikTok com validação de `state` e renovação de token
+- Envio oficial de vídeo como rascunho pelo Content Posting API
+- Consulta do status de processamento do TikTok
 
 ## Rodar
 ```bash
@@ -24,5 +26,8 @@ Build: `npm run build`.
 ## Segurança
 Nunca coloque access token, client secret ou credenciais no Git. Use variáveis de ambiente no backend/deploy.
 
-## Próxima etapa
-Conectar o app aprovado no TikTok Developers via OAuth e implementar no backend somente os endpoints liberados para a conta/app. Até essa autorização, o Autoonn não finge publicação real.
+## Integração TikTok
+
+O frontend usa `VITE_API_BASE_URL`. O backend precisa de HTTPS público e das variáveis documentadas em `.env.server.example`. O Client Secret e os tokens nunca vão para o GitHub Pages.
+
+O Autoonn envia o vídeo como rascunho; a revisão e a publicação final acontecem dentro do aplicativo TikTok.

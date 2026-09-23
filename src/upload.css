@@ -1,0 +1,73 @@
+.upload-form {
+  display: flex;
+  align-items: end;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.upload-form label {
+  display: grid;
+  gap: 8px;
+  flex: 1;
+  min-width: 260px;
+  color: #d4d4d8;
+  font-size: 13px;
+}
+
+.upload-form input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #3f3f46;
+  border-radius: 10px;
+  background: #18181b;
+  color: #e4e4e7;
+}
+
+.upload-form input::file-selector-button {
+  border: 0;
+  border-radius: 7px;
+  padding: 8px 10px;
+  margin-right: 12px;
+  background: #3f3f46;
+  color: white;
+  cursor: pointer;
+}
+
+.upload-status {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid #3b2850;
+  border-radius: 12px;
+  background: #1b1322;
+  display: grid;
+  gap: 7px;
+}
+
+.upload-status span,
+.upload-status p {
+  color: #a1a1aa;
+  font-size: 12px;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.upload-status button {
+  justify-self: start;
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 11px;
+  background: #3f3f46;
+  color: #fff;
+  cursor: pointer;
+}
+
+.connect-callout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.connect-callout p {
+  color: #a1a1aa;
+}
