@@ -1,6 +1,11 @@
-const BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+const configuredBase = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+const onGitHubPages = typeof window !== "undefined" && window.location.hostname.endsWith("github.io");
+const BASE = configuredBase || (onGitHubPages ? null : "");
 
 async function request(path, options) {
+  if (BASE === null) {
+    throw new Error("API do Autoonn ainda não está conectada nesta demo.");
+  }
   const response = await fetch(BASE + path, options);
   const data = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(data.error || "Erro de API");
