@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="theme-color" content="#09090b" />
+  <title>Autoonn — TikTok Growth OS</title>
+  <script>
+    (function () {
+      function showError(message) {
+        var box = document.getElementById('autoonn-diagnostic');
+        if (!box) return;
+        box.style.display = 'block';
+        box.textContent = 'AUTOONN DIAGNÓSTICO: ' + message;
+      }
+      window.addEventListener('error', function (event) {
+        showError((event.message || 'Erro JavaScript') + (event.filename ? ' — ' + event.filename + ':' + event.lineno : ''));
+      });
+      window.addEventListener('unhandledrejection', function (event) {
+        var reason = event.reason;
+        showError('Promise rejeitada: ' + (reason && (reason.stack || reason.message) ? (reason.stack || reason.message) : String(reason)));
+      });
+      window.__autoonnShowError = showError;
+      setTimeout(function () {
+        var root = document.getElementById('root');
+        if (root && !root.querySelector('.shell')) {
+          showError('React não montou o painel após 5 segundos. Abra esta tela e envie exatamente esta mensagem.');
+        }
+      }, 5000);
+    })();
+  </script>
+  <script type="module" crossorigin src="/autoonn/assets/index-xnoSt8Zn.js"></script>
+  <link rel="stylesheet" crossorigin href="/autoonn/assets/index-CsyP1tLJ.css">
+</head>
+<body>
+  <div id="autoonn-diagnostic" style="display:none;position:fixed;z-index:99999;left:12px;right:12px;top:12px;padding:14px;border-radius:10px;background:#7f1d1d;color:white;font:14px/1.4 system-ui;white-space:pre-wrap"></div>
+  <div id="root"></div>
+</body>
+</html>
